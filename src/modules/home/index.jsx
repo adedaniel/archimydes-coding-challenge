@@ -14,15 +14,17 @@ export default function Dashboard() {
   const [sortValue, setSortValue] = useState("");
   const [filterTypeValue, setFilterTypeValue] = useState("");
   const [isAdmin] = useState(
-    localStorage.getItem("archimydes_user_role") === "admin"
+    localStorage.getItem("archimydes_user_role") === "admin" //get user role from localStorage
   );
   const dispatch = useDispatch();
   useEffect(() => {
     if (allUserStories.length === 0) {
+      // If user stories have not been fetched, do so
       dispatch(readUserStories());
     }
   }, []);
   function dynamicSort(property, order) {
+    //In order to sort the array,
     var sort_order = 1;
     if (order === "desc") {
       sort_order = -1;
@@ -41,14 +43,20 @@ export default function Dashboard() {
     };
   }
   const filterByType = (story) => {
+    // To filter the array by type
     return story.type.includes(filterTypeValue);
   };
 
-  return allUserStories.length === 0 ||
+  return allUserStories.length === 0 &&
     actionsLoading.includes("READ_USER_STORIES") ? (
     <Loader />
   ) : (
-    <Box backgroundColor="gray.50" height="100%" px={["6%", "6%", "6%", "10%"]}>
+    <Box
+      backgroundColor="gray.50"
+      height="100%"
+      pb="10%"
+      px={["6%", "6%", "6%", "10%"]}
+    >
       <Box pt={10}>
         <Text fontSize="2xl">Welcome Back!</Text>
         <Flex justify="space-between">
@@ -96,14 +104,24 @@ export default function Dashboard() {
           />
         </Stack>
       </Box>
-      <StoriesList
-        allUserStories={allUserStories}
-        dynamicSort={dynamicSort}
-        filterByType={filterByType}
-        isAdmin={isAdmin}
-        sortAscending={sortAscending}
-        sortValue={sortValue}
-      />
+
+      {allUserStories.length === 0 ? (
+        <Box h="70vh" pt={8} textAlign="center">
+          <Text fontSize="xl">
+            You haven't created any stories yet. You can click 'Add Story' to
+            create a new one.
+          </Text>
+        </Box>
+      ) : (
+        <StoriesList
+          allUserStories={allUserStories}
+          dynamicSort={dynamicSort}
+          filterByType={filterByType}
+          isAdmin={isAdmin}
+          sortAscending={sortAscending}
+          sortValue={sortValue}
+        />
+      )}
     </Box>
   );
 }

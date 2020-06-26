@@ -1,44 +1,48 @@
-# Example app with [chakra-ui](https://github.com/chakra-ui/chakra-ui)
+## This project is a solution to the given code challenge by Archimydes to me - Adetola Daniel
 
-This example features how to use [chakra-ui](https://github.com/chakra-ui/chakra-ui) as the component library within a Next.js app.
+### Introduction
 
-We are connecting the Next.js `_app.js` with `chakra-ui`'s Theme and ColorMode containers so the pages can have app-wide dark/light mode. We are also creating some components which shows the usage of `chakra-ui`'s style props.
+This project was bootstrapped with create-next-app and Chakra UI as the design framework
 
-## Deploy your own
+#### PLEASE NOTE:
 
-Deploy the example using [Vercel](https://vercel.com):
+Please set the node.js api server to listen at `localhost:5000` rather than localhost:3000. So it doesn't conflict with this development port and break the code .
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/vercel/next.js/tree/canary/examples/with-chakra-ui)
+I have already set the base url to `localhost:5000` (you can see/change that in the url.js file)
 
-## How to use
+### To install:
 
-### Using `create-next-app`
+- clone this repo
+- run `yarn add` or `npm install` to install all necessary packages
+- run `yarn dev` or `npm run dev` to start the development server
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+### Methods/Steps
 
-```bash
-npx create-next-app --example with-chakra-ui with-chakra-ui-app
-# or
-yarn create next-app --example with-chakra-ui with-chakra-ui-app
-```
+#### 1. Theming
 
-### Download manually
+Chakra UI supports inline styling of components (sort of like how it's done in Tailwind CSS). Hence, there are no separate .css files.
 
-Download the example:
+For responsiveness, style values for different breakpoints are used in arrays. So if you see something like
 
-```bash
-curl https://codeload.github.com/vercel/next.js/tar.gz/canary | tar -xz --strip=2 next.js-canary/examples/with-chakra-ui
-cd with-chakra-ui
-```
+`height={[200,300,400]}`
 
-Install it and run:
+It simply means;
 
-```bash
-npm install
-npm run dev
-# or
-yarn
-yarn dev
-```
+`@media(min-width: 576px){ height: 200px }`
 
-Deploy it to the cloud with [Vercel](https://vercel.com/import?filter=next.js&utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+`@media(min-width: 768px){ height: 300px }`
+
+`@media(min-width: 991px){ height: 400px }`
+
+#### 2. Utils
+
+The two major utils here are the `withAuth` HOC and the `findInArray` helper function.
+
+- The `withAuth` HOC is used on protected pages to check if the user already has a saved session on the app. If not, it will redirect the user to the `Login` page
+
+- The `findInArray` helper function is used to find an object in an array with a unique identifier (usually an `id`). It accepts three parameters;
+  The body(array), the group(specific object key to search from) and the query(the value that is being searched for)
+
+#### 3. State Management
+
+State management was implemented using Redux with Hooks
