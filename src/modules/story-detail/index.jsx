@@ -3,17 +3,12 @@ import {
   Box,
   Text,
   Stack,
-  Input,
   Button,
-  FormControl,
-  RadioGroup,
-  Radio,
   useToast,
   Flex,
   Badge,
 } from "@chakra-ui/core";
 import findInArray from "../../utils/findInArray";
-
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import { updateUserStory, readUserStories } from "../../redux/actions";
@@ -23,14 +18,7 @@ import Loader from "../../components/loading-animation";
 export default function StoryDetailComponent() {
   const allUserStories = useSelector((state) => state.allUserStories);
   const actionsLoading = useSelector((state) => state.actionsLoading);
-  const [storyId, setStoryId] = useState("");
-  const [summary, setSummary] = useState("");
-  const [description, setDescription] = useState("");
-  const [type, setType] = useState("");
-  const [complexity, setComplexity] = useState("");
-  const [estimatedHrs, setEstimatedHrs] = useState("");
-  const [cost, setCost] = useState("");
-  const [isApproved, setIsApproved] = useState("false");
+  const [selectedStory, setSelectedStory] = useState({});
   const toast = useToast();
 
   const dispatch = useDispatch();
@@ -40,41 +28,29 @@ export default function StoryDetailComponent() {
     }
   }, []);
   const router = useRouter();
-  const { id } = router.query;
+
   useEffect(() => {
-    if (!findInArray(allUserStories, "id", id)) {
+    if (!findInArray(allUserStories, "id", router.query.id)) {
       allUserStories.length !== 0 && router.push("/");
     } else {
-      const {
-        id,
-        summary,
-        description,
-        type,
-        complexity,
-        estimatedHrs,
-        cost,
-        isApproved,
-      } = findInArray(allUserStories, "id", router.query.id);
-      setStoryId(id);
-      setSummary(summary);
-      setDescription(description);
-      setType(type);
-      setComplexity(complexity);
-      setEstimatedHrs(estimatedHrs);
-      setCost(cost);
-      setIsApproved(isApproved);
+      setSelectedStory(findInArray(allUserStories, "id", router.query.id));
     }
   }, [allUserStories]);
 
+  const {
+    id,
+    summary,
+    description,
+    type,
+    complexity,
+    estimatedHrs,
+    cost,
+    isApproved,
+  } = selectedStory;
+
   const setStoryStatus = (value) => {
     const updatedStoryObject = {
-      id: storyId,
-      summary,
-      description,
-      type,
-      complexity,
-      estimatedHrs,
-      cost,
+      ...selectedStory,
       isApproved: value,
     };
     dispatch(updateUserStory(updatedStoryObject));
@@ -88,6 +64,7 @@ export default function StoryDetailComponent() {
     });
     router.push("/");
   };
+
   return allUserStories.length === 0 ||
     actionsLoading.includes("READ_USER_STORIES") ? (
     <Loader />
@@ -119,7 +96,7 @@ export default function StoryDetailComponent() {
           </Button>
         </Link>
         <Flex>
-          <Text fontSize="2xl">Task #{storyId}: &nbsp;</Text>
+          <Text fontSize="2xl">Task #{id}: &nbsp;</Text>
           <Text fontWeight="bold" color="primary.500" fontSize="2xl">
             {summary}
           </Text>

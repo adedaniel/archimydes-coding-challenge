@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Text,
   Stack,
   Input,
   Button,
-  FormControl,
   RadioGroup,
   Radio,
   useToast,
@@ -13,7 +12,7 @@ import {
 import Axios from "axios";
 import Router from "next/router";
 import { URL } from "../../utils/url";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { emptyStore } from "../../redux/actions";
 
 export default function LoginComponent() {
