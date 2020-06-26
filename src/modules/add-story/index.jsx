@@ -2,23 +2,15 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   Text,
-  Grid,
-  Flex,
-  Badge,
   Button,
-  Icon,
   Stack,
   Input,
-  FormControl,
-  RadioGroup,
-  Radio,
   useToast,
   Textarea,
   Select,
   InputGroup,
   InputLeftElement,
 } from "@chakra-ui/core";
-import Axios from "axios";
 import Link from "next/link";
 import { FaDollarSign } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,7 +25,6 @@ export default function AddStoryComponent() {
   const [complexity, setComplexity] = useState("");
   const [timeToComplete, setTimeToComplete] = useState("");
   const [cost, setCost] = useState("");
-
   const actionsLoading = useSelector((state) => state.actionsLoading);
   const actionsError = useSelector((state) => state.actionsError);
   const actionsSuccess = useSelector((state) => state.actionsSuccess);
@@ -65,7 +56,7 @@ export default function AddStoryComponent() {
   }, [actionsSuccess]);
   const submitNewStory = (e) => {
     e.preventDefault();
-    let addStoryPayload = {
+    const addStoryPayload = {
       summary,
       description,
       type,
@@ -73,7 +64,6 @@ export default function AddStoryComponent() {
       estimatedHrs: timeToComplete,
       cost,
     };
-    // console.log(addStoryPayload);
     dispatch(createNewStory(addStoryPayload));
   };
 
@@ -83,7 +73,6 @@ export default function AddStoryComponent() {
       verticalAlign="middle"
       height="100vh"
       width="100vw"
-      //   textAlign="center"
       backgroundColor="gray.50"
     >
       <Box

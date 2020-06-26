@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Router from "next/router";
 import Loader from "../components/loading-animation";
-// import Loader from "../components/loading-animation";
 export const withAuth = (Component) => {
   return function Auth(props) {
     const [isAuthorized, setIsAuthorized] = useState(false);
