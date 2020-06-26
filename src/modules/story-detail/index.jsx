@@ -24,6 +24,7 @@ export default function StoryDetailComponent() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (allUserStories.length === 0) {
+      // Firstly, fetch the user stories if they haven't been loaded yet.
       dispatch(readUserStories());
     }
   }, []);
@@ -31,9 +32,10 @@ export default function StoryDetailComponent() {
 
   useEffect(() => {
     if (!findInArray(allUserStories, "id", router.query.id)) {
-      allUserStories.length !== 0 && router.push("/");
+      //Meanwhile, if no story id matches the router.query.id,
+      allUserStories.length !== 0 && router.push("/"); // and allUserStories have loaded, then redirect the user back to the story listing
     } else {
-      setSelectedStory(findInArray(allUserStories, "id", router.query.id));
+      setSelectedStory(findInArray(allUserStories, "id", router.query.id)); // but if it finds a match, that's what will be displayed.
     }
   }, [allUserStories]);
 
@@ -51,24 +53,26 @@ export default function StoryDetailComponent() {
   const setStoryStatus = (value) => {
     const updatedStoryObject = {
       ...selectedStory,
-      isApproved: value,
+      isApproved: value, // set value for isApproved
     };
-    dispatch(updateUserStory(updatedStoryObject));
+    dispatch(updateUserStory(updatedStoryObject)); // then dispatch action to update story
     toast({
       position: "bottom-left",
       title: "Story Updated Successfully",
       description: "You're good to go!",
       status: "success",
       duration: 2000,
-      isClosable: true,
+      isClosable: true, // Display success message
     });
-    router.push("/");
+    router.push("/"); // once that's done, redirect to story lists page
   };
 
   return allUserStories.length === 0 ||
-    actionsLoading.includes("READ_USER_STORIES") ? (
+    actionsLoading.includes("READ_USER_STORIES") ? ( //While fetching stories,
+    // Display loading animation
     <Loader />
   ) : (
+    // When loaded, display
     <Box
       display="table-cell"
       verticalAlign="middle"
@@ -138,12 +142,13 @@ export default function StoryDetailComponent() {
             </Box>
           </Flex>
           {typeof isApproved !== "undefined" && (
+            //If isApproved exists,
             <Box mt={3}>
               <Flex>
                 <Text>Status: &nbsp;</Text>
                 <Badge
                   fontSize="md"
-                  variantColor={isApproved ? "green" : "red"}
+                  variantColor={isApproved ? "green" : "red"} // if approved is set to true, set color to green. If not, red
                   py={1}
                   px={2}
                 >
@@ -158,7 +163,7 @@ export default function StoryDetailComponent() {
             variant="solid"
             variantColor="red"
             fontWeight="normal"
-            onClick={() => setStoryStatus(false)}
+            onClick={() => setStoryStatus(false)} // Change story status to rejected
             width={["100%", 150]}
             my={4}
           >
@@ -168,7 +173,7 @@ export default function StoryDetailComponent() {
             variant="solid"
             variantColor="green"
             fontWeight="normal"
-            onClick={() => setStoryStatus(true)}
+            onClick={() => setStoryStatus(true)} // Change story status to accepted
             width={["100%", 150]}
             my={4}
           >

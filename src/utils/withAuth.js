@@ -5,9 +5,9 @@ export const withAuth = (Component) => {
   return function Auth(props) {
     const [isAuthorized, setIsAuthorized] = useState(false);
     useEffect(() => {
-      localStorage.getItem("archimydes_access_token")
+      localStorage.getItem("archimydes_access_token") // read access token
         ? setIsAuthorized(true)
-        : Router.push("/login");
+        : Router.push("/login"); //redirect to login if token is not defined
     }, []);
     return isAuthorized ? <Component {...props} /> : <Loader />;
   };

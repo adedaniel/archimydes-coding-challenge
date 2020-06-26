@@ -30,12 +30,14 @@ export default function LoginComponent() {
       password,
       isAdmin: loginRole === "admin" ? true : false,
     };
-    setIsLoading(true);
+    setIsLoading(true); // Set isLoading to true
     Axios.post(URL + "/api/v1/signin", loginPayload)
       .then((result) => {
-        localStorage.setItem("archimydes_access_token", result.data.token);
-        localStorage.setItem("archimydes_user_role", loginRole);
+        // If successful,
+        localStorage.setItem("archimydes_access_token", result.data.token); // store access token,
+        localStorage.setItem("archimydes_user_role", loginRole); // and the user role too
         toast({
+          // Then display a success message
           position: "bottom-left",
           title: "Login successful",
           description: " please wait...",
@@ -43,12 +45,15 @@ export default function LoginComponent() {
           duration: 2000,
           isClosable: true,
         });
-        dispatch(emptyStore());
-        Router.push("/");
-        setIsLoading(false);
+        dispatch(emptyStore()); // Next, we empty the store to receive the new data,
+        setIsLoading(false); // and set isLoading to false too...
+
+        Router.push("/"); // and finally direct the user to the story listings page
       })
       .catch((error) => {
+        // If it failed to authenticate,
         toast({
+          // Display error message,
           position: "bottom-left",
           title: "Something weird happened.",
           description: "Please try again.",
@@ -57,7 +62,7 @@ export default function LoginComponent() {
           isClosable: true,
         });
         console.log(error.response);
-        setIsLoading(false);
+        setIsLoading(false); // and also set isLoading to false
       });
   };
   return (

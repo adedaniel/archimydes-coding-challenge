@@ -39,11 +39,13 @@ export default function (state, action) {
       };
     case "LOADING":
       if (action.isLoading) {
+        // if isLoading === true, add loading type to the array
         return {
           ...state,
           actionsLoading: [...state.actionsLoading, action.loadingType],
         };
       } else {
+        // if isLoading === false, remove loading type from the array
         return {
           ...state,
           actionsLoading: state.actionsLoading.filter(
@@ -53,12 +55,14 @@ export default function (state, action) {
       }
     case "LOADED_ACTION":
       return {
+        // add the loadedAction to the array of loadedActions
         ...state,
         loadedActions: [...state.loadedActions, action.loadedType],
       };
 
     case "ERROR":
       if (action.hasError) {
+        // if hasError === true, add error type to the array of errors
         return {
           ...state,
           actionsError: [
@@ -70,6 +74,7 @@ export default function (state, action) {
           ],
         };
       } else {
+        // if hasError === false, remove error type from the array of errors
         return {
           ...state,
           actionsError: state.actionsError.filter(
@@ -80,6 +85,7 @@ export default function (state, action) {
 
     case "SUCCESS":
       if (action.hasSuccess) {
+        // if hasSuccess === true, add successful action to the array of actionsSuccess
         return {
           ...state,
           actionsSuccess: [
@@ -91,6 +97,7 @@ export default function (state, action) {
           ],
         };
       } else {
+        // if hasSuccess === false, remove successful action from the array of actionsSuccess
         return {
           ...state,
           actionsSuccess: state.actionsSuccess.filter(

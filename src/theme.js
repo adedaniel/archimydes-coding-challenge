@@ -1,5 +1,5 @@
 import { theme as chakraTheme } from "@chakra-ui/core";
-const breakpoints = ["576px", "768px", "992px"];
+const breakpoints = ["576px", "768px", "992px"]; // breakpoints for xs, sm and lg
 
 const theme = {
   ...chakraTheme,
@@ -7,7 +7,7 @@ const theme = {
     ...chakraTheme.colors,
     black: "#16161D",
     primary: {
-      "500": "#429e89",
+      "500": "#429e89", // theme color
     },
   },
   fonts: {
